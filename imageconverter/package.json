@@ -1,0 +1,10 @@
+{
+  "name": "imageconverter",
+  "version": "0.0.1",
+  "description": "Converts plane 360 degrees",
+  "author": "ZiaxDK",
+  "license": "BSD",
+  "dependencies": {
+    "async": "~0.2.9"
+  }
+}
