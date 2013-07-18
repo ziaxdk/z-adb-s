@@ -55,6 +55,42 @@
       //L.circleMarker([55.647011, 12.231356]).addTo(map);
 
 
+
+/*//Source
+JSONObject source = step.getJSONObject("start_location");
+double lat1 = Double.parseDouble(source.getString("lat"));
+double lng1 = Double.parseDouble(source.getString("lng"));
+
+// destination
+JSONObject destination = step.getJSONObject("end_location");
+double lat2 = Double.parseDouble(destination.getString("lat"));
+double lng2 = Double.parseDouble(destination.getString("lng"));
+
+double dLon = (lng2-lng1);
+double y = Math.sin(dLon) * Math.cos(lat2);
+double x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+double brng = Math.toDegrees((Math.atan2(y, x)));
+brng = (360 - ((brng + 360) % 360));*/
+
+
+
+      /** Converts radians to numeric (signed) degrees */
+      if (typeof Number.prototype.toDeg == 'undefined') {
+        Number.prototype.toDeg = function() {
+          return this * 180 / Math.PI;
+        }
+      }
+
+      var source = { lat: 55, lon: 1 };
+      var destination = { lat: 55, lon: 20 };
+
+      var dLon = destination.lon - source.lon;
+      var y = Math.sin(dLon) * Math.cos(destination.lat);
+      var x = Math.cos(source.lat)*Math.sin(destination.lat) - Math.sin(source.lat)*Math.cos(destination.lat)*Math.cos(dLon);
+      var brng = Math.atan2(y, x).toDeg();
+
+      console.log(brng);
+
     }());
 
 
