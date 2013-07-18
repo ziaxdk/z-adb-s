@@ -39,8 +39,8 @@
       var myIcon = L.icon({
           iconUrl: 'planes/plane_15.png',
           iconRetinaUrl: 'my-icon@2x.png',
-          iconSize: [202, 228],
-          iconAnchor: [101, 114],
+          iconSize: [101, 114],
+          iconAnchor: [50, 57],
           /*popupAnchor: [-3, -76],
           shadowUrl: 'my-icon-shadow.png',
           shadowRetinaUrl: 'my-icon-shadow@2x.png',
@@ -48,8 +48,12 @@
           shadowAnchor: [22, 94]*/
       });
 
-      L.marker([51.5, -0.09], { icon: myIcon }).addTo(map)
-          .bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
+
+
+      L.marker([51.5, -0.09], { icon: myIcon }).addTo(map).bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
+      //L.circleMarker([51.5, -0.09]).addTo(map);
+
+
     }());
 
 

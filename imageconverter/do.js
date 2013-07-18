@@ -11,7 +11,7 @@ var async = require('async'),
 var rotate = function(callback) {
   console.log("Processing: " + deg);
   // "C:\Program Files (x86)\ImageMagick-6.8.6-Q16\convert.exe" plane.png -rotate 45 .png
-  var p = childProcess.exec('"C:\\Program Files (x86)\\ImageMagick-6.8.6-Q16\\convert.exe" plane.png -rotate ' + deg + ' plane_' + deg + '.png', function(error, stdout, stderr) {
+  var p = childProcess.exec('"C:\\Program Files (x86)\\ImageMagick-6.8.6-Q16\\convert.exe" plane_c.png -background transparent -rotate ' + deg + ' -gravity Center -crop 200x200+0+0 img/plane_' + deg + '.png', function(error, stdout, stderr) {
    if (error) {
      console.log(error.stack);
      console.log('Error code: '+error.code);
@@ -36,10 +36,7 @@ for (i = 1; i <= 360; i++) {
   jobs.push(rotate);
 }
 
-sprite.sprite('global', {path: 'img'}, function(err, globalSprite) {
-  console.log(globalSprite.filename())
-});
-//async.series(jobs);
+async.series(jobs);
 
 //builder.build( function() {
 //    console.log( "Built from " + builder.images.length + " images" );
