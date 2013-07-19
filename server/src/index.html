@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Take me to heaven</title>
 
   <link rel="stylesheet" href="leaflet.css" />
   <!--[if lte IE 8]>
@@ -28,16 +29,77 @@
     <div id="map"></div>
   </body>
   <script>
-    (function() {
-      var map = L.map('map').setView([55.647011, 12.231356], 18);
+    L.Control.MousePosition = L.Control.extend({
+      options: {
+        position: 'bottomleft',
+        separator: ' : ',
+        emptyString: 'Unavailable',
+        lngFirst: false,
+        numDigits: 5,
+        lngFormatter: undefined,
+        latFormatter: undefined,
+        prefix: ""
+      },
 
-      // add an OpenStreetMap tile layer
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+      onAdd: function (map) {
+        this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+        L.DomEvent.disableClickPropagation(this._container);
+        map.on('mousemove', this._onMouseMove, this);
+        this._container.innerHTML=this.options.emptyString;
+        return this._container;
+      },
+
+      onRemove: function (map) {
+        map.off('mousemove', this._onMouseMove)
+      },
+
+      _onMouseMove: function (e) {
+        var lng = this.options.lngFormatter ? this.options.lngFormatter(e.latlng.lng) : L.Util.formatNum(e.latlng.lng, this.options.numDigits);
+        var lat = this.options.latFormatter ? this.options.latFormatter(e.latlng.lat) : L.Util.formatNum(e.latlng.lat, this.options.numDigits);
+        var value = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
+        var prefixAndValue = this.options.prefix + ' ' + value;
+        this._container.innerHTML = prefixAndValue;
+      }
+
+    });
+
+    L.Map.mergeOptions({
+        positionControl: false
+    });
+
+    L.Map.addInitHook(function () {
+        if (this.options.positionControl) {
+            this.positionControl = new L.Control.MousePosition();
+            this.addControl(this.positionControl);
+        }
+    });
+
+    L.control.mousePosition = function (options) {
+        return new L.Control.MousePosition(options);
+    };
+
+  </script>
+
+
+  <script>
+    (function() {
+      var map = L.map('map').setView([55.647011, 12.231356], 16);
+      L.control.mousePosition().addTo(map);
+
+      var baseLayers = {
+        "Cloudmade": L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', { key: '7900b8c7f3074fd18e325ad6a60c33b7', styleId: 997 }).addTo(map),
+        "OSM": L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { }),
+        //"B&W": L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { })
+      };
+
+      var overlays = {
+        "Clouds": L.tileLayer('http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png', { attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>', opacity: 0.5 }),
+      };
+
+      var layerControl = L.control.layers(baseLayers, overlays, { position: 'topleft' }).addTo(map);
 
       var myIcon = L.icon({
-          iconUrl: 'planes/plane_15.png',
+          iconUrl: 'planes/plane_245.png',
           iconRetinaUrl: 'my-icon@2x.png',
           iconSize: [100, 100],
           iconAnchor: [50, 50],
