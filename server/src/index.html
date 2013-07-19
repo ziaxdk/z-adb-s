@@ -20,6 +20,12 @@
     left: 0;
     right: 0;
   }
+
+  .my-div-icon {
+    background: transparent url('planes/all.png') 0px -35800px no-repeat;
+    width: 200px !important;
+    height: 200px !important;
+  }
   </style>
 
   <script src="leaflet.js"></script>
@@ -110,10 +116,16 @@
           shadowAnchor: [22, 94]*/
       });
 
+      var divIcon = L.divIcon({
+        className: 'my-div-icon',
+        /*iconSize: [200, 200],*/
+        iconAnchor: [100, 100],
+      });
+
       //$scope.locateMeFn(55.647011, 12.231356); // Home
 
 
-      L.marker([55.647011, 12.231356], { icon: myIcon }).addTo(map).bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
+      L.marker([55.647011, 12.231356], { icon: divIcon }).addTo(map).bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
       //L.circleMarker([55.647011, 12.231356]).addTo(map);
 
 

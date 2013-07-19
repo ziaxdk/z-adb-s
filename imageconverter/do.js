@@ -30,7 +30,11 @@ var rotate = function (callback) {
 
 
 var sprite = function (callback) {
-  var p = childProcess.exec('"C:\\Program Files (x86)\\ImageMagick-6.8.6-Q16\\convert.exe" img/plane*.png -append img/result/all.png', function (error, stdout, stderr) {
+  var files =[];
+  for (var i = 1; i <= 360; i++) {
+    files.push('img/plane_' + i + '.png');
+  }
+  var p = childProcess.exec('"C:\\Program Files (x86)\\ImageMagick-6.8.6-Q16\\convert.exe" ' + files.join(' ') + ' -append img/result/all.png', function (error, stdout, stderr) {
     if (error) {
       console.log(error.stack);
       console.log('Error code: ' + error.code);
@@ -51,7 +55,3 @@ for (i = 1; i <= 360; i++) {
 jobs.push(sprite);
 
 async.series(jobs);
-
-//builder.build( function() {
-//    console.log( "Built from " + builder.images.length + " images" );
-//});
